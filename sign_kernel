@@ -1,0 +1,11 @@
+#!/bin/sh
+if [ $# -eq 1 ]
+then
+	cd $1
+	rm -f $1*
+	zip -r $1.zip *
+        java -jar ~/android-sdk-linux/tools/SignApp/signapk.jar ~/android-sdk-linux/tools/SignApp/testkey.x509.pem ~/android-sdk-linux/tools/SignApp/testkey.pk8 $1.zip $1-signed.zip
+else
+        echo "Verzeichnis des Anykernels angeben"
+        echo "Beispiel: sign_kernel /kernel"
+fi
