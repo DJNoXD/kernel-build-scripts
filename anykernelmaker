@@ -1,11 +1,15 @@
 #!/bin/sh
 if [ $# -eq 2 ]
 then
-	cp -R AnyKernel $2
+	rm -R -f $2
+	cp -R AnyKernel $2 -f
 	rm -R -f $2/.git
 	cp $1/arch/arm/boot/zImage $2/kernel/.
 	rm $2/system/lib/modules/* -f
-	cp $1//drivers/net/wireless/bcm4325/wireless.ko $2/system/lib/modules/.
+	cp $1/drivers/net/wireless/bcm4325/wireless.ko $2/system/lib/modules/.
+	cp $1/drivers/net/tun.ko $2/system/lib/modules/.
+	cp $1/fs/cifs/cifs.ko $2/system/lib/modules/.
+	./sign_kernel $2
 else
         echo "Verzeichnisnamen des Kernels und für das neue Anykernels angeben (ohne '/' am Ende)"
         echo "Beispiel: anykernelmaker /kernel /NewAnyKernel"
