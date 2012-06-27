@@ -9,6 +9,7 @@ then
 	cp $1/drivers/net/wireless/bcm4325/wireless.ko $2/system/lib/modules/.
 	cp $1/drivers/net/tun.ko $2/system/lib/modules/.
 	cp $1/fs/cifs/cifs.ko $2/system/lib/modules/.
+	cp $1/fs/fuse/fuse.ko $2/system/lib/modules/.
 	./sign_kernel $2
 	cp $2/$2-signed.zip $3/.
 else
@@ -22,6 +23,7 @@ else
         	cp $1/drivers/net/wireless/bcm4325/wireless.ko $2/system/lib/modules/.
 	        cp $1/drivers/net/tun.ko $2/system/lib/modules/.
 	        cp $1/fs/cifs/cifs.ko $2/system/lib/modules/.
+		cp $1/fs/fuse/fuse.ko $2/system/lib/modules/.
 	        ./sign_kernel $2
 	else
 	        echo "Verzeichnisnamen des Kernels und für das neue Anykernels angeben (ohne '/' am Ende)"
