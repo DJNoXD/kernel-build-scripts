@@ -1,0 +1,47 @@
+#get path
+CURRENT=`pwd`
+BASEDIR=`basename $CURRENT`
+echo $BASEDIR
+echo $2
+
+#save original config
+mv .config .config_save
+
+echo
+echo ta_off
+cd ..
+./anykernelmaker $BASEDIR $1-ta-vsyncOff $2
+cd $BASEDIR
+
+echo
+echo ta_on
+cd ..
+./anykernelmaker $BASEDIR $1-ta-vsync $2
+cd $BASEDIR
+
+echo
+echo roqu_off
+cd ..
+./anykernelmaker $BASEDIR $1-roqu-vsyncOff $2
+cd $BASEDIR
+
+echo
+./mka
+cd ..
+./anykernelmaker $BASEDIR $1-roqu-vsync $2
+
+echo 
+cd $2
+git status
+echo 
+git pull
+git add .
+git commit -a -m "$1"
+git push
+
+cd ..
+cd $BASEDIR
+
+#restore original config
+mv .config_save .config
+
