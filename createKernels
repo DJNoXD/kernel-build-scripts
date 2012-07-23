@@ -2,6 +2,9 @@ echo 1 = version tag
 echo 2 = commit dir for releases
 read -p "Press [Enter] key to start kernel creation ..."
 
+#get date
+DATUM=`date '+%Y%m%d'`
+
 #get path
 CURRENT=`pwd`
 BASEDIR=`basename $CURRENT`
@@ -19,7 +22,7 @@ echo ta_off
 cp .config-ta_off .config
 ./mka
 cd ..
-./anykernelmaker $BASEDIR $1-ta-vsyncOff $2
+./anykernelmaker $BASEDIR $1-ta-vsyncOff-$DATUM $2
 cd $BASEDIR
 
 echo
@@ -27,7 +30,7 @@ echo ta_on
 cp .config-ta_on .config
 ./mka
 cd ..
-./anykernelmaker $BASEDIR $1-ta-vsync $2
+./anykernelmaker $BASEDIR $1-ta-vsync-$DATUM $2
 cd $BASEDIR
 
 echo
@@ -35,7 +38,7 @@ echo roqu_off
 cp .config-roqu_off .config
 ./mka
 cd ..
-./anykernelmaker $BASEDIR $1-roqu-vsyncOff $2
+./anykernelmaker $BASEDIR $1-roqu-vsyncOff-$DATUM $2
 cd $BASEDIR
 
 echo
@@ -43,7 +46,7 @@ echo roqu_on
 cp .config-roqu_on .config
 ./mka
 cd ..
-./anykernelmaker $BASEDIR $1-roqu-vsync $2
+./anykernelmaker $BASEDIR $1-roqu-vsync-$DATUM $2
 
 echo 
 cd $2
