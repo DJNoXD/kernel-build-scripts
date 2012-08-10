@@ -1,7 +1,6 @@
-#echo 1 = version tag
-#echo 2 = commit dir for releases
-echo Date will be used as version tag
-echo 1 = commit dir for releases
+echo "commit dir  = $1"
+VTAG=`echo $(git branch | grep "*" | sed "s/* //")`;
+echo version tag = $VTAG
 read -p "Press [Enter] key to start kernel creation ..."
 
 #get date
@@ -11,7 +10,7 @@ DATUM=`date '+%Y%m%d'`
 CURRENT=`pwd`
 BASEDIR=`basename $CURRENT`
 echo $BASEDIR
-echo $1
+echo $VTAG
 
 #save original config
 mv .config .config_save
@@ -24,31 +23,34 @@ echo ta_off
 cp .config-ta_off .config
 ./mka
 cd ..
-./anykernelmaker $BASEDIR $DATUM-ta-vsyncOff $1
+./anykernelmaker $BASEDIR $VTAG-ta-vsyncOff-$DATUM $1
 cd $BASEDIR
 
+make clean
 echo
 echo ta_on
 cp .config-ta_on .config
 ./mka
 cd ..
-./anykernelmaker $BASEDIR $DATUM-ta-vsync $1
-cd $BASEDIR
-
-echo
-echo roqu_off
-cp .config-roqu_off .config
-./mka
-cd ..
-./anykernelmaker $BASEDIR $DATUM-roqu-vsyncOff-$DATUM $1
-cd $BASEDIR
-
-echo
-echo roqu_on
-cp .config-roqu_on .config
-./mka
-cd ..
-./anykernelmaker $BASEDIR $DATUM-roqu-vsync-$DATUM $1
+./anykernelmaker $BASEDIR $VTAG-ta-vsync-$DATUM $1
+#cd $BASEDIR
+#
+#make clean
+#echo
+#echo roqu_off
+#cp .config-roqu_off .config
+#./mka
+#cd ..
+#./anykernelmaker $BASEDIR $VTAG-roqu-vsyncOff-$DATUM $1
+#cd $BASEDIR
+#
+#make clean
+#echo
+#echo roqu_on
+#cp .config-roqu_on .config
+#./mka
+#cd ..
+#./anykernelmaker $BASEDIR $VTAG-roqu-vsync-$DATUM $1
 
 echo 
 cd $1
