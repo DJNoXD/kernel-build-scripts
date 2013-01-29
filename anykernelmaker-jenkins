@@ -1,0 +1,30 @@
+#!/bin/sh
+_rindex()
+{
+    case $1 in
+        *$2*)
+            idx=${1%$2*};
+            _RINDEX=$(( ${#idx} ))
+        ;;
+        *)
+            _RINDEX=0;
+            return 1
+        ;;
+    esac
+}
+
+	cp -R /home/randolf/android/kernel/AnyKernel $2 -f
+	rm -R -f $2/.git
+	cp $1/arch/arm/boot/zImage $2/kernel/.
+	rm $2/system/lib/modules/* -f
+	cp $1/drivers/net/wireless/bcm4325/wireless.ko $2/system/lib/modules/.
+	cp $1/arch/arm/mach-msm/qdsp5/vocpcm.ko $2/system/lib/modules/.
+#	cp $1/drivers/net/tun.ko $2/system/lib/modules/.
+#	cp $1/fs/cifs/cifs.ko $2/system/lib/modules/.
+#	cp $1/fs/fuse/fuse.ko $2/system/lib/modules/.
+	sh /home/randolf/android/kernel/sign_kernel $2
+        file=$2
+	_rindex $file '/'
+	fnamelen=${#file}
+
+	cp $2-signed.zip $3/${file:$_RINDEX+1:$fnamelen}-signed.zip
